@@ -39,12 +39,25 @@ class Game_table(Connection_db):
         query_row = self.filter_query(f"SELECT Phone FROM [Game Listings] WHERE [Listing ID] = {listing_id}")
         return query_row.fetchone()[0]
 
-    def get_long_and_lat(self,listing_id):
+    def get_long(self,listing_id):
         location = self.get_seller_location(listing_id)
-        lat_long = requests.get(f"https://eu1.locationiq.com/v1/search.php?key=bbd9cdd1dc6146&q={location}&format=json".lower().strip())
+        lat_long = requests.get(
+            f"https://eu1.locationiq.com/v1/search.php?key=bbd9cdd1dc6146&q={location}&format=json".lower().strip())
         lat_long_dict = lat_long.json()
-        latitude = lat_long_dict[0]['lat']
-        longitude = lat_long_dict[0]['lon']
+        longitude = str(lat_long_dict[0]['lon'])
+        return longitude
+
+    def get_lat(self,listing_id):
+        location = self.get_seller_location(listing_id)
+        lat_long = requests.get(
+            f"https://eu1.locationiq.com/v1/search.php?key=bbd9cdd1dc6146&q={location}&format=json".lower().strip())
+        lat_long_dict = lat_long.json()
+        latitude = str(lat_long_dict[0]['lat'])
+        return latitude
+
+    def get_long_and_lat(self,listing_id):
+        latitude = self.get_lat(listing_id)
+        longitude = self.get_long(listing_id)
         return 'Latitude: ' + latitude + ', Longitude: ' + longitude
 
     def listing_id_generator(self):

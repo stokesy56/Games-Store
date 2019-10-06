@@ -20,6 +20,7 @@ games_table = Game_table(server,database,username,password)
 #games_table.update_entry(1,'Location','wd3 8hy')
 #print(type(games_table.get_seller_location(1)))
 
+
 user_input = input("Welcome to Filipe Paiva's second hand games store. \nYou can: \n1) List all games for sale. \n2) Buy a game. \n3) Sell a game \n4) Update listing details. \nType exit to leave.\n").lower()
 while user_input != 'exit':
     if user_input == '1':
@@ -61,9 +62,27 @@ while user_input != 'exit':
 
     elif user_input == '4':
         user_input7 = input('What is your game listing ID?')
-        user_input8 = input(f'Is this the one? \n{games_table.find_print_entry(user_input7)}').lower()
+        games_table.find_print_entry(user_input7)
+        user_input8 = input(f'Is this the one? ').lower()
         if user_input8.__contains__('yes'):
-
+            user_input9 = input('What would you like to update? You can edit your phone number or your location').lower()
+            if user_input9.__contains__('phone'):
+                user_input10 = str(input('Please enter a new number...'))
+                games_table.update_entry(user_input7,'Phone',user_input10)
+                print('Your Phone number has been updated.')
+            elif user_input9.__contains__('location'):
+                user_input11 = input('Please enter a new location...')
+                games_table.update_entry(user_input7,'Location', user_input11)
+                print('Your location has been updated.')
+                user_input12 = input('Would you like us to make note of your location coordinates as well?').lower()
+                if user_input12 == 'yes':
+                    games_table.update_entry(user_input7,'Latitude', games_table.get_lat(user_input7))
+                    games_table.update_entry(user_input7,'Longitude', games_table.get_long(user_input7))
+                    print('Coordinates have been added')
+                else:
+                    print('Ok no problem')
+        else:
+            print('Try again')
 
     else:
         print('Sorry, your input was invalid. Please Try again')
