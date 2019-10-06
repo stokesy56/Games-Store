@@ -1,6 +1,6 @@
 import pyodbc
 
-class Connection:
+class Connection_db:
     def __init__(self, server, database, username, password):
         self.server = server
         self.database = database
@@ -13,3 +13,4 @@ class Connection:
 
     def filter_query(self, query):
         return self.cursor.execute(query)
+
