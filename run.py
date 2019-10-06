@@ -31,9 +31,10 @@ while user_input != 'exit':
         user_input3 = input('Would you like to buy this game?').lower()
         if user_input3.__contains__('yes'):
             print(f'Congratulations! You have purchased the game.')
-            user_input4 = input('Would you like to receive the coordinates of where to pick up your game?')
+            games_table.delete_entry(user_input2)
+            user_input4 = input('Would you like to receive the coordinates of where to pick up your game?').lower()
             if user_input4.__contains__('yes'):
-                if games_table.get_seller_location(user_input2) is None:
+                if games_table.get_seller_location(user_input2) is None or games_table.get_seller_location(user_input2) == '':
                     print(f'Unfortunately the seller has not provided a location. Please call them on {games_table.get_seller_phone(user_input2)} to find out.')
                     user_input5 = input('Please tell us the location')
                     games_table.update_entry(user_input2,'Location',user_input5)
@@ -45,8 +46,23 @@ while user_input != 'exit':
         else:
             ('Ok no problem')
 
-    #elif user_input2 == '3':
+    elif user_input == '3':
+        game = input('What is the game called?')
+        console = input('What console does it use?')
+        phone = input('What is your phone number?')
+        price = input('How much would you like to sell it for?')
+        location = input('You can give us your address details if you like')
+        user_input6 = input('Are you sure you wish to sell this?').lower()
+        if user_input6.__contains__('yes'):
+            games_table.create_entry(games_table.listing_id_generator(),game,console,phone,price,location)
+            print('Your game is now up for sale!')
+        else:
+            print('Ok no problem')
 
+    elif user_input == '4':
+        user_input7 = input('What is your game listing ID?')
+        user_input8 = input(f'Is this the one? \n{games_table.find_print_entry(user_input7)}').lower()
+        if user_input8.__contains__('yes'):
 
 
     else:
