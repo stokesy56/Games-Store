@@ -45,7 +45,7 @@ while user_input != 'exit':
         else:
             ('Ok no problem')
 
-    elif user_input2 == '3':
+    #elif user_input2 == '3':
 
 
 

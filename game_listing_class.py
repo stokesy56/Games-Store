@@ -47,5 +47,7 @@ class Game_table(Connection_db):
         longitude = lat_long_dict[0]['lon']
         return 'Latitude: ' + latitude + ', Longitude: ' + longitude
 
-    
+    def table_length(self):
+        rows = self.filter_query("SELECT * FROM [Game Listings]").fetchall()
+        return len(rows)
 
