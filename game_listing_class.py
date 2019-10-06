@@ -22,4 +22,6 @@ class Game_table(Connection_db):
         insert_row = self.filter_query(f"INSERT INTO [Game Listings] ([Listing ID], Game, Console, Phone, Price) Values ({listing_id}, '{game}', '{console}', '{contact_number}', '{price}')")
         insert_row.commit()
 
-    #def delete_entry(self,):
+    def delete_entry(self, listing_id):
+        delete_row = self.filter_query(f"DELETE FROM [Game Listings] WHERE [Listing ID] = {listing_id}")
+        delete_row.commit()
