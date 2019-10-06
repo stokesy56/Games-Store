@@ -1,4 +1,5 @@
 from db_connection import *
+import requests
 
 class Game_table(Connection_db):
 
@@ -27,7 +28,14 @@ class Game_table(Connection_db):
         delete_row.commit()
 
     def update_entry(self, listing_id, column_name, new_value):
-        update_row = self.sql_query((f"UPDATE [Game Listings] SET {column_name} = {new_value} WHERE [Listing ID] = {listing_id}"))
+        update_row = self.filter_query(f"UPDATE [Game Listings] SET {column_name} = {new_value} WHERE [Listing ID] = {listing_id}")
         update_row.commit()
 
-    
+    def get_long_and_lat(self,postcode):
+        lat_long = requests.get(f"https://eu1.locationiq.com/v1/search.php?key=bbd9cdd1dc6146&q={postcode}&format=json".lower().strip())
+        lat_long_dict = lat_long.json()
+        latitude = lat_long_dict[0]['lat']
+        longitude = lat_long_dict[0]['lon']
+        return 'Latitude: ' + latitude + ', Longitude: ' + longitude
+
+
