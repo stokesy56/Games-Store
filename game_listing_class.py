@@ -11,8 +11,8 @@ class Game_table(Connection_db):
                 break
             print(f"{record[0]} - Game: {record[1]} - Console: {record[2]} - Contact Number: {record[3]} - Price: {record[4]}")
 
-    def find_print_entry(self,game_name):
-        query_row = self.filter_query(f"SELECT * FROM [Game Listings] WHERE Game = '{game_name}'")
+    def find_print_entry(self,listing_id):
+        query_row = self.filter_query(f"SELECT * FROM [Game Listings] WHERE [Listing ID] = '{listing_id}'")
         while True:
             record = query_row.fetchone()
             if record is None:
@@ -28,14 +28,24 @@ class Game_table(Connection_db):
         delete_row.commit()
 
     def update_entry(self, listing_id, column_name, new_value):
-        update_row = self.filter_query(f"UPDATE [Game Listings] SET {column_name} = {new_value} WHERE [Listing ID] = {listing_id}")
+        update_row = self.filter_query(f"UPDATE [Game Listings] SET {column_name} = '{new_value}' WHERE [Listing ID] = {listing_id}")
         update_row.commit()
 
-    def get_long_and_lat(self,postcode):
-        lat_long = requests.get(f"https://eu1.locationiq.com/v1/search.php?key=bbd9cdd1dc6146&q={postcode}&format=json".lower().strip())
+    def get_seller_location(self,listing_id):
+        query_row = self.filter_query(f"SELECT Location FROM [Game Listings] WHERE [Listing ID] = {listing_id}")
+        return query_row.fetchone()[0]
+
+    def get_seller_phone(self,listing_id):
+        query_row = self.filter_query(f"SELECT Phone FROM [Game Listings] WHERE [Listing ID] = {listing_id}")
+        return query_row.fetchone()[0]
+
+    def get_long_and_lat(self,listing_id):
+        location = self.get_seller_location(listing_id)
+        lat_long = requests.get(f"https://eu1.locationiq.com/v1/search.php?key=bbd9cdd1dc6146&q={location}&format=json".lower().strip())
         lat_long_dict = lat_long.json()
         latitude = lat_long_dict[0]['lat']
         longitude = lat_long_dict[0]['lon']
         return 'Latitude: ' + latitude + ', Longitude: ' + longitude
 
+    
 
