@@ -19,6 +19,15 @@ class Game_table(Connection_db):
                 break
             print(f"{record[0]} - Game: {record[1]} - Console: {record[2]} - Contact Number: {record[3]} - Price: {record[4]}")
 
+    def find_print_entry_seller(self,listing_id):
+        query_row = self.filter_query(f"SELECT * FROM [Game Listings] WHERE [Listing ID] = '{listing_id}'")
+        while True:
+            record = query_row.fetchone()
+            if record is None:
+                break
+            print(f"{record[0]} - Game: {record[1]} - Console: {record[2]} - Contact Number: {record[3]} - Price: {record[4]} - Location: {record[5]} - Latitude: {record[6]} - Longitude: {record[7]}")
+
+
     def create_entry(self, listing_id, game, console, contact_number, price, location):
         insert_row = self.filter_query(f"INSERT INTO [Game Listings] ([Listing ID], Game, Console, Phone, Price, Location) Values ({listing_id}, '{game}', '{console}', '{contact_number}', '{price}', '{location}')")
         insert_row.commit()

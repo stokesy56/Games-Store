@@ -62,7 +62,7 @@ while user_input != 'exit':
 
     elif user_input == '4':
         user_input7 = input('What is your game listing ID?')
-        games_table.find_print_entry(user_input7)
+        games_table.find_print_entry_seller(user_input7)
         user_input8 = input(f'Is this the one? ').lower()
         if user_input8.__contains__('yes'):
             user_input9 = input('What would you like to update? You can edit your phone number or your location').lower()
@@ -79,8 +79,13 @@ while user_input != 'exit':
                     games_table.update_entry(user_input7,'Latitude', games_table.get_lat(user_input7))
                     games_table.update_entry(user_input7,'Longitude', games_table.get_long(user_input7))
                     print('Coordinates have been added')
+
                 else:
+                    games_table.update_entry(user_input7, 'Latitude', '')
+                    games_table.update_entry(user_input7, 'Longitude', '')
                     print('Ok no problem')
+                print('Your new listing')
+                games_table.find_print_entry_seller(user_input7)
         else:
             print('Try again')
 
