@@ -18,3 +18,8 @@ class Game_table(Connection_db):
                 break
             print(f"{record[0]} - Game: {record[1]} - Console: {record[2]} - Contact Number: {record[3]} - Price: {record[4]}")
 
+    def create_entry(self, listing_id, game, console, contact_number, price):
+        insert_row = self.filter_query(f"INSERT INTO [Game Listings] ([Listing ID], Game, Console, Phone, Price) Values ({listing_id}, '{game}', '{console}', '{contact_number}', '{price}')")
+        insert_row.commit()
+
+    #def delete_entry(self,):
